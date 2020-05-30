@@ -1,8 +1,8 @@
+import Grid from './Grid';
+
 export default class Character extends Phaser.GameObjects.Image{
 
     name:string;
-    /*x:number = 0;
-    y:number = 0;*/
     
     maxHP:number;
     currHP:number;
@@ -15,10 +15,15 @@ export default class Character extends Phaser.GameObjects.Image{
 
     team:number;
     refString:string;
-    
+
+    image: Phaser.GameObjects.Image| undefined = undefined;
+
     DMG_RED_PER_LVL:number = .025;
 
-    healthBar; // Make healthbar class
+    healthBarRed: Phaser.GameObjects.Rectangle;
+    healthBarGreen: Phaser.GameObjects.Rectangle;
+
+    sc:Phaser.Scene;
 
 
     // List of buffs(functions)
@@ -35,8 +40,15 @@ export default class Character extends Phaser.GameObjects.Image{
         this.agility = 1;
         this.speed = 0;
 
+        this.sc = scene;
+
         this.refString = texture;
         this.team = team;
+
+        if(team != 0)
+            this.setFlipX(true);
+
+        this.setRectangle();
     }
 
     /**
@@ -78,5 +90,18 @@ export default class Character extends Phaser.GameObjects.Image{
     setPoint(point: Phaser.Geom.Point):void{
         this.x = point.x;
         this.y = point.y;
+
+        this.setRectangle();
+    }
+
+    setRectangle():void{
+        this.currHP = this.maxHP-1;
+        let redLength = Math.round(Grid.SQUARE_WIDTH - ((this.currHP / this.maxHP) * Grid.SQUARE_WIDTH));
+        let greenLength = Grid.SQUARE_WIDTH - redLength;
+
+        this.healthBarRed = this.scene.add.rectangle(this.x - Grid.SQUARE_WIDTH/2 + greenLength, this.y - Grid.SQUARE_WIDTH/2 , redLength, 5, 0xFF0000);
+        this.healthBarGreen = this.sc.add.rectangle(this.x - Grid.SQUARE_WIDTH/2, this.y - Grid.SQUARE_WIDTH/2 , greenLength, 5, 0x008000);
+        this.healthBarGreen.setOrigin(0,0.5);
+        this.healthBarRed.setOrigin(0,0.5);
     }
 }

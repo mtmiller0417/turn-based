@@ -52,10 +52,21 @@ export default class FightScene extends Phaser.Scene {
     }
 
     addCharacters(){
-        let tmp:Character =  new Character(this,'tmp-name','mage', 0);
-        tmp.setPoint(this.grid.getTilePoint(0,0));
-        this.add.image(tmp.x, tmp.y, tmp.refString);
+        this.addChar('tmp-name','mage', 0, 0, 4);
+        this.addChar('tmp-name','elf-archer', 0, 0, 3);
+        this.addChar('tmp-name','orc', 1, 15, 4);
+        this.addChar('tmp-name','grim-reaper', 1, 15, 5);
+    }
+
+    addChar(charName:string, texture:string, teamNo:number, x:number, y:number){
+        let tmp:Character = new Character(this,charName,texture, teamNo);
+        tmp.setPoint(this.grid.getTilePoint(x, y));
+        tmp.image = this.add.image(tmp.x, tmp.y, tmp.refString);
+        if(teamNo != 0)
+            tmp.image.setFlipX(true);
         this.charList.push(tmp);
+
+        //this.add.circle(tmp.x, tmp.y, 5, 0xFF0000);
     }
 
 
