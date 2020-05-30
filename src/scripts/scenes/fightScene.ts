@@ -9,7 +9,7 @@ export default class FightScene extends Phaser.Scene {
     grid: Grid;
     gridPoint:Phaser.Geom.Point;
 
-    SQUARE_WIDTH:number = 32;
+    SQUARE_WIDTH:number = Grid.SQUARE_WIDTH;
 
     xOffset:number;
     yOffset:number;

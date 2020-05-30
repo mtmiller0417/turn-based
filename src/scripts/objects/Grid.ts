@@ -3,7 +3,8 @@ import Character from './Character';
 // This class overlays the movement grid on a scene
 export default class Grid{
 
-    SQUARE_WIDTH:number = 32;
+    static SQUARE_WIDTH:number = 64;
+    SQUARE_WIDTH:number = Grid.SQUARE_WIDTH;
     width:number;
     height:number;
     xOffset:number;
