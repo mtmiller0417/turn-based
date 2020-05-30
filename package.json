@@ -1,8 +1,7 @@
 {
-  "name": "educational-phaser-game-template",
+  "name": "Turn-Based-Game",
   "version": "0.0.2",
-  "description": "Phaser 3 starter template for educational games, using TypeScript, webpack, and Github Pages.",
-  "homepage": "https://github.com/acbart/educational-phaser-game-template#readme",
+  "description": "",
   "main": "index.js",
   "game": {
     "url": "educational-phaser-game-template",
@@ -10,8 +9,8 @@
     "name": "Educational Phaser Game Template"
   },
   "author": {
-    "name": "Austin Cory Bart",
-    "url": "https://github.com/acbart"
+    "name": "Matt Miller",
+    "url": "https://github.com/mtmiller0417"
   },
   "repository": {
     "type": "git",
@@ -57,7 +56,7 @@
     "typescript": "^3.8.3",
     "webpack": "^4.42.1",
     "webpack-cli": "^3.3.11",
-    "webpack-dev-server": "^3.10.3",
+    "webpack-dev-server": "^3.11.0",
     "webpack-merge": "^4.2.2",
     "webpack-obfuscator": "^0.27.2",
     "workbox-webpack-plugin": "^4.3.1"
