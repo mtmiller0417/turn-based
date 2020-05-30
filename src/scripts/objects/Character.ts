@@ -22,6 +22,7 @@ export default class Character extends Phaser.GameObjects.Image{
 
     healthBarRed: Phaser.GameObjects.Rectangle;
     healthBarGreen: Phaser.GameObjects.Rectangle;
+    healthBarWidth:number;
 
     sc:Phaser.Scene;
 
@@ -45,10 +46,10 @@ export default class Character extends Phaser.GameObjects.Image{
         this.refString = texture;
         this.team = team;
 
+        this.healthBarWidth = (Grid.SQUARE_WIDTH * 2) / 3;
+
         if(team != 0)
             this.setFlipX(true);
-
-        this.setRectangle();
     }
 
     /**
@@ -74,6 +75,9 @@ export default class Character extends Phaser.GameObjects.Image{
         // Apply dmg based on tmp defence
         this.currHP = this.currHP - this.applyDEF_DMG(dmg, tmpDEF);
         Math.max(this.currHP, 0); // Don't let HP drop BELOW 0
+
+        // Update the healthBar to reflect the change in HP
+        this.updateHealthBar();
     }
 
     /**
@@ -91,17 +95,30 @@ export default class Character extends Phaser.GameObjects.Image{
         this.x = point.x;
         this.y = point.y;
 
-        this.setRectangle();
+        this.updateHealthBar();
     }
 
-    setRectangle():void{
-        this.currHP = this.maxHP-1;
-        let redLength = Math.round(Grid.SQUARE_WIDTH - ((this.currHP / this.maxHP) * Grid.SQUARE_WIDTH));
-        let greenLength = Grid.SQUARE_WIDTH - redLength;
+    createHealthBar():void{
+        let redLength = Math.round(this.healthBarWidth - ((this.currHP / this.maxHP) *this.healthBarWidth));
+        let greenLength = this.healthBarWidth - redLength;
 
-        this.healthBarRed = this.scene.add.rectangle(this.x - Grid.SQUARE_WIDTH/2 + greenLength, this.y - Grid.SQUARE_WIDTH/2 , redLength, 5, 0xFF0000);
-        this.healthBarGreen = this.sc.add.rectangle(this.x - Grid.SQUARE_WIDTH/2, this.y - Grid.SQUARE_WIDTH/2 , greenLength, 5, 0x008000);
+        this.healthBarRed = this.scene.add.rectangle(this.x - this.healthBarWidth/2 + greenLength, this.y - Grid.SQUARE_WIDTH/2 , redLength, 5, 0xFF0000);
+        this.healthBarGreen = this.sc.add.rectangle(this.x - this.healthBarWidth/2, this.y - Grid.SQUARE_WIDTH/2 , greenLength, 5, 0x008000);
         this.healthBarGreen.setOrigin(0,0.5);
         this.healthBarRed.setOrigin(0,0.5);
+    }
+
+    updateHealthBar(){
+
+        // If the healthbar hasn't been created, do so first
+        if(this.healthBarRed == undefined && this.healthBarRed == undefined)
+            this.createHealthBar();
+
+        let redLength = Math.round(this.healthBarWidth - ((this.currHP / this.maxHP) * this.healthBarWidth));
+        let greenLength = this.healthBarWidth - redLength;
+
+        this.healthBarGreen.width = greenLength;
+        this.healthBarRed.width = redLength;
+        this.healthBarRed.setX(this.x - this.healthBarWidth/2 + greenLength);
     }
 }
